@@ -31,6 +31,8 @@
           nvim = nixvim'.makeNixvimWithModule nixvimModule;
         in
         {
+          formatter = pkgs.nixpkgs-fmt;
+
           checks.default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
           packages.default = nvim;
         };
