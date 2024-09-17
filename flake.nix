@@ -1,5 +1,5 @@
 {
-  description = "Simcra's personal configuration files for neovim packaged as a nix flake using nixvim";
+  description = "Simcra's Neovim configuration, written declaratively using Nix";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -24,24 +24,15 @@
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule = {
             inherit pkgs;
-            module = import ./config; # import the module directly
-            # You can use `extraSpecialArgs` to pass additional arguments to your module files
-            extraSpecialArgs = {
-              # inherit (inputs) foo;
-            };
+
+            module = import ./config;
+            # extraSpecialArgs = { inherit (inputs) foo; };
           };
           nvim = nixvim'.makeNixvimWithModule nixvimModule;
         in
         {
-          checks = {
-            # Run `nix flake check .` to verify that your config is not broken
-            default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
-          };
-
-          packages = {
-            # Lets you run `nix run .` to start nixvim
-            default = nvim;
-          };
+          checks.default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
+          packages.default = nvim;
         };
     };
 }
