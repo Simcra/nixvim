@@ -4,19 +4,37 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
-    nixvim.inputs.home-manager.follows = "home-manager";
-    nixvim.inputs.flake-parts.follows = "flake-parts";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+        flake-parts.follows = "flake-parts";
+      };
+    };
   };
 
-  outputs = { nixpkgs, nixvim, flake-parts, ... } @ inputs:
+  outputs =
+    { self
+    , nixpkgs
+    , nixvim
+    , flake-parts
+    , ...
+    } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
+      flake = {
+        overlays.default = final: _prev: {
+          nvim = self.packages.${final.system}.default;
+        };
+      };
+
       systems = nixpkgs.lib.systems.flakeExposed;
       perSystem = { pkgs, system, ... }:
         let
