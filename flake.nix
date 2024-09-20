@@ -11,6 +11,7 @@
 
     flake-compat.url = "github:edolstra/flake-compat";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-utils.url = "github:numtide/flake-utils";
 
     nixvim = {
       url = "github:nix-community/nixvim";
