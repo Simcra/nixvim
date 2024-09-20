@@ -1,12 +1,13 @@
 {
   imports = [
-    ./bufferline.nix
-    ./direnv.nix
-    ./lsp.nix
-    ./none-ls.nix
-    ./nvim-tree.nix
-    ./web-devicons.nix
-    ./which-key.nix
+    ./options.nix
+    ./plugins/bufferline.nix
+    ./plugins/direnv.nix
+    ./plugins/lsp.nix
+    ./plugins/none-ls.nix
+    ./plugins/nvim-tree.nix
+    ./plugins/web-devicons.nix
+    ./plugins/which-key.nix
   ];
 
   keymaps = [
